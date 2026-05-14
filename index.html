@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Louie Badillo | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Self-hosted NaNRage (+ other local fonts). Keeping Google Fonts limited to icon glyphs below. -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Self-hosted fonts: add @font-face rules in ./assets/fonts/fonts.css -->
+    <link href="./assets/fonts/fonts.css" rel="stylesheet" />
+    <style>
+      /* Smooth in-page scrolling (e.g. #about). Respect reduced-motion preferences. */
+      @media (prefers-reduced-motion: no-preference) {
+        html {
+          scroll-behavior: smooth;
+        }
+      }
+
+      /* Dark mode (class-based). We override the small set of utility classes
+         used throughout the page so we don't have to duplicate markup. */
+      html.dark body {
+        background-color: #121212;
+        color: #eef0f2;
+      }
+      html.dark .text-secondary {
+        color: #a7adb4 !important;
+      }
+      html.dark .text-on-surface-variant {
+        color: #c6cbd1 !important;
+      }
+      html.dark .text-primary {
+        color: #ffffff !important;
+      }
+      html.dark .bg-surface-container,
+      html.dark .bg-surface-container-low,
+      html.dark .bg-surface-container-lowest,
+      html.dark .bg-white {
+        background-color: #101214 !important;
+      }
+      html.dark .bg-background,
+      html.dark .md\:bg-background {
+        background-color: #121212 !important;
+      }
+      html.dark .border-surface-container-high,
+      html.dark .border-surface-container {
+        border-color: #2a2f34 !important;
+      }
+
+      /* Social rail: light = black icons; hover = invert (light: black pill / dark: white pill) */
+      .social-rail-hit {
+        color: #000000;
+        border-radius: 0.125rem;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+      html.dark .social-rail-hit {
+        color: #ffffff;
+      }
+      html.light .social-rail-hit:hover,
+      html.light .social-rail-hit:focus-visible {
+        background-color: #000000;
+        color: #ffffff;
+      }
+      html.dark .social-rail-hit:hover,
+      html.dark .social-rail-hit:focus-visible {
+        background-color: #ffffff;
+        color: #000000;
+      }
+      html.light .social-rail-hit:focus-visible {
+        outline: 2px solid #000000;
+        outline-offset: 2px;
+      }
+      html.dark .social-rail-hit:focus-visible {
+        outline: 2px solid #ffffff;
+        outline-offset: 2px;
+      }
+
+      /* Primary CTAs: hover inverts fill (light ↔ dark) */
+      .cta-btn-solid {
+        border: 1px solid transparent;
+        transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      }
+      html.light .cta-btn-solid {
+        background-color: #000000;
+        color: #ffffff;
+      }
+      html.light .cta-btn-solid:hover,
+      html.light .cta-btn-solid:focus-visible {
+        background-color: #ffffff;
+        color: #000000;
+        border-color: #000000;
+      }
+      html.dark .cta-btn-solid {
+        background-color: #000000;
+        color: #ffffff;
+      }
+      html.dark .cta-btn-solid:hover,
+      html.dark .cta-btn-solid:focus-visible {
+        background-color: #ffffff;
+        color: #000000;
+        border-color: #ffffff;
+      }
+
+      .cta-btn-outline {
+        border-width: 1px;
+        border-style: solid;
+        transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      }
+      html.light .cta-btn-outline {
+        background-color: transparent;
+        color: #000000;
+        border-color: #000000;
+      }
+      html.light .cta-btn-outline:hover,
+      html.light .cta-btn-outline:focus-visible {
+        background-color: #000000;
+        color: #ffffff;
+        border-color: #000000;
+      }
+      html.dark .cta-btn-outline {
+        background-color: transparent;
+        color: #ffffff;
+        border-color: #ffffff;
+      }
+      html.dark .cta-btn-outline:hover,
+      html.dark .cta-btn-outline:focus-visible {
+        background-color: #ffffff;
+        color: #000000;
+        border-color: #ffffff;
+      }
+
+      .contact-link-hover {
+        transition: background-color 0.2s ease, color 0.2s ease;
+        border-radius: 0.125rem;
+      }
+      html.light .contact-link-hover:hover,
+      html.light .contact-link-hover:focus-visible {
+        background-color: #000000;
+        color: #ffffff !important;
+      }
+      html.dark .contact-link-hover:hover,
+      html.dark .contact-link-hover:focus-visible {
+        background-color: #ffffff;
+        color: #000000 !important;
+      }
+
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
+      }
+      body {
+        background-color: #f9f9f9;
+        color: #1a1c1c;
+        -webkit-font-smoothing: antialiased;
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      /* Heading tags default to NaNRage via Tailwind tokens; avoid forcing a legacy webfont here. */
+
+      .project-scroll-container {
+        scroll-snap-type: y mandatory;
+      }
+      .project-item {
+        scroll-snap-align: center;
+      }
+
+      /* Featured work frames: match page background (same as body) */
+      .featured-work-surface,
+      .featured-work-surface-alt {
+        background-color: #f9f9f9;
+      }
+      html.dark .featured-work-surface,
+      html.dark .featured-work-surface-alt {
+        background-color: #121212;
+      }
+
+      .project-media .project-poster,
+      .project-media .project-video {
+        transition: opacity 0.45s ease;
+      }
+      .project-media .project-video {
+        opacity: 0;
+      }
+      .project-media.is-active .project-poster {
+        opacity: 0;
+      }
+      .project-media.is-active .project-video {
+        opacity: 1;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .project-media .project-poster,
+        .project-media .project-video {
+          transition: none;
+        }
+        .project-media.is-active .project-poster {
+          opacity: 1;
+        }
+        .project-media.is-active .project-video {
+          opacity: 0;
+        }
+      }
+
+      /* Fade transition for project details */
+      .details-fade {
+        transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+      }
+      .details-fade.out {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      /* Featured Works (desktop): compact title, scrollable sticky column */
+      @media (min-width: 768px) {
+        #work .featured-works-title {
+          font-size: clamp(1.65rem, 0.65vw + 1.2rem, 2.15rem) !important;
+          line-height: 1.08;
+          letter-spacing: -0.03em;
+        }
+      }
+    </style>
+  </head>
+  <body class="font-body-md text-body-md selection:bg-primary selection:text-on-primary">
+    <div id="smokey-root" aria-hidden="true"></div>
+    <script src="/src/main.tsx" type="module"></script>
+    <script>
+      (() => {
+        const storageKey = "theme";
+        const root = document.documentElement;
+
+        const getPreferredTheme = () => {
+          const stored = localStorage.getItem(storageKey);
+          if (stored === "light" || stored === "dark") return stored;
+          // Default to dark unless the user explicitly chose a theme before.
+          return "dark";
+        };
+
+        const syncThemeIcon = () => {
+          const icon = document.querySelector("[data-theme-icon]");
+          if (!icon) return;
+          // Show the opposite mode (action): sun in dark mode, moon in light mode.
+          icon.textContent = root.classList.contains("dark") ? "light_mode" : "dark_mode";
+        };
+
+        const applyTheme = (theme) => {
+          root.classList.toggle("dark", theme === "dark");
+          root.classList.toggle("light", theme !== "dark");
+          syncThemeIcon();
+        };
+
+        applyTheme(getPreferredTheme());
+
+        window.__toggleTheme = () => {
+          const next = root.classList.contains("dark") ? "light" : "dark";
+          localStorage.setItem(storageKey, next);
+          applyTheme(next);
+          return next;
+        };
+      })();
+    </script>
+
+    <nav
+      class="fixed left-3 top-0 z-50 mt-8 hidden flex-col gap-1.5 sm:mt-20 md:mt-8 md:flex lg:mt-8 xl:mt-16"
+      aria-label="Social links"
+    >
+      <button
+        type="button"
+        class="social-rail-hit mb-2 flex w-full flex-col items-center justify-center border-b border-black/25 pb-3 focus:outline-none dark:border-white/35"
+        title="Toggle theme"
+        aria-label="Toggle theme"
+        onclick="
+          const next = window.__toggleTheme?.();
+          const icon = this.querySelector('[data-theme-icon]');
+          if (icon) icon.textContent = next === 'dark' ? 'light_mode' : 'dark_mode';
+        "
+      >
+        <span class="material-symbols-outlined text-[1.35rem] leading-none md:text-[1.5rem]" data-theme-icon>light_mode</span>
+      </button>
+      <a
+        class="social-rail-hit flex items-center justify-center p-1 focus:outline-none"
+        href="https://github.com/louiebadillo"
+        rel="noreferrer"
+        target="_blank"
+        title="GitHub"
+        aria-label="GitHub"
+      >
+        <svg class="h-6 w-6 shrink-0 md:h-6 md:w-6" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+          <path
+            d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.095 1.845 2.835 1.32 3.525 1.005.105-.78.42-1.32.765-1.62-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+          />
+        </svg>
+      </a>
+      <a
+        class="social-rail-hit flex items-center justify-center p-1 focus:outline-none"
+        href="mailto:louie.badillo@yahoo.com"
+        title="Email"
+        aria-label="Email"
+      >
+        <svg class="h-6 w-6 shrink-0 md:h-6 md:w-6" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+          <path d="m22 6-10 7L2 6" />
+        </svg>
+      </a>
+      <a
+        class="social-rail-hit flex items-center justify-center p-1 focus:outline-none"
+        href="https://www.instagram.com/maloupett/"
+        rel="noreferrer"
+        target="_blank"
+        title="Instagram"
+        aria-label="Instagram"
+      >
+        <svg class="h-6 w-6 shrink-0 md:h-6 md:w-6" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+        </svg>
+      </a>
+      <a
+        class="social-rail-hit flex items-center justify-center p-1 focus:outline-none"
+        href="https://www.linkedin.com/in/louie-badillo88/"
+        rel="noreferrer"
+        target="_blank"
+        title="LinkedIn"
+        aria-label="LinkedIn"
+      >
+        <svg class="h-6 w-6 shrink-0 md:h-6 md:w-6" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+          <path
+            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771A1.77 1.77 0 0 0 0 1.771v20.458C0 23.2.774 24 1.771 24h20.451C23.2 24 24 23.2 24 22.229V1.771A1.77 1.77 0 0 0 22.222 0h.003z"
+          />
+        </svg>
+      </a>
+    </nav>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-high": "#e8e8e8",
+              "on-secondary-fixed": "#1b1c1c",
+              "tertiary-container": "#1b1b1b",
+              "on-tertiary-container": "#848484",
+              "on-primary-container": "#848484",
+              "on-primary-fixed": "#1b1b1b",
+              secondary: "#5e5e5e",
+              outline: "#7e7576",
+              "on-background": "#1a1c1c",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#eeeeee",
+              "inverse-surface": "#2f3131",
+              "inverse-primary": "#c6c6c6",
+              "surface-dim": "#dadada",
+              "secondary-fixed-dim": "#c7c6c6",
+              "surface-tint": "#5e5e5e",
+              "on-surface-variant": "#4c4546",
+              "surface-container-low": "#f3f3f4",
+              "primary-fixed-dim": "#c6c6c6",
+              "on-error": "#ffffff",
+              "on-surface": "#1a1c1c",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed-variant": "#474747",
+              "on-primary": "#ffffff",
+              tertiary: "#000000",
+              "secondary-container": "#e3e2e2",
+              "on-secondary-container": "#646464",
+              "outline-variant": "#cfc4c5",
+              "on-tertiary-fixed": "#1b1b1b",
+              error: "#ba1a1a",
+              background: "#f9f9f9",
+              "surface-variant": "#e2e2e2",
+              "surface-container-highest": "#e2e2e2",
+              "primary-container": "#1b1b1b",
+              "on-secondary": "#ffffff",
+              "tertiary-fixed": "#e2e2e2",
+              "error-container": "#ffdad6",
+              "secondary-fixed": "#e3e2e2",
+              "tertiary-fixed-dim": "#c6c6c6",
+              "primary-fixed": "#e2e2e2",
+              surface: "#f9f9f9",
+              "surface-bright": "#f9f9f9",
+              primary: "#000000",
+              "on-secondary-fixed-variant": "#464747",
+              "on-primary-fixed-variant": "#474747",
+              "inverse-on-surface": "#f0f1f1",
+              "surface-container-lowest": "#ffffff",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              margin: "48px",
+              gutter: "16px",
+              unit: "4px",
+              "container-max-width": "1680px",
+              "section-padding": "120px",
+              "stack-sm": "12px",
+              "stack-md": "24px",
+              "stack-lg": "48px",
+            },
+            fontFamily: {
+              "body-md": ["Neue Haas Grotesk Display", "NaNRage Beau Standard", "system-ui", "sans-serif"],
+              "headline-lg": ["Druk Wide", "NaNRage Beau Standard", "system-ui", "sans-serif"],
+              "headline-md": ["NaNRage Beau Standard", "system-ui", "sans-serif"],
+              "label-md": ["NaNRage Beau Standard"],
+              "headline-sm": ["Druk Wide", "NaNRage Beau Standard", "system-ui", "sans-serif"],
+              "label-sm": ["NaNRage Beau Standard"],
+              "body-lg": ["Neue Haas Grotesk Display", "NaNRage Beau Standard", "system-ui", "sans-serif"],
+            },
+            fontSize: {
+              "body-md": [
+                "clamp(0.875rem, 0.18vw + 0.8rem, 1.05rem)",
+                { lineHeight: "1.65", letterSpacing: "0.03em", fontWeight: "400" },
+              ],
+              "headline-lg": [
+                "clamp(2.75rem, 1.35vw + 2rem, 4rem)",
+                { lineHeight: "1.06", letterSpacing: "-0.04em", fontWeight: "700" },
+              ],
+              "headline-md": [
+                "clamp(1.65rem, 0.65vw + 1.2rem, 2.35rem)",
+                { lineHeight: "1.15", letterSpacing: "-0.02em", fontWeight: "300" },
+              ],
+              "label-md": [
+                "clamp(0.78rem, 0.14vw + 0.7rem, 0.95rem)",
+                { lineHeight: "1", letterSpacing: "0.05em", fontWeight: "500" },
+              ],
+              "headline-sm": [
+                "clamp(1.2rem, 0.42vw + 0.95rem, 1.85rem)",
+                { lineHeight: "1.15", letterSpacing: "-0.01em", fontWeight: "700" },
+              ],
+              "label-sm": [
+                "clamp(0.62rem, 0.12vw + 0.56rem, 0.8rem)",
+                { lineHeight: "1", letterSpacing: "0.08em", fontWeight: "500" },
+              ],
+              "body-lg": [
+                "clamp(1rem, 0.28vw + 0.88rem, 1.2rem)",
+                { lineHeight: "1.65", letterSpacing: "0.03em", fontWeight: "400" },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+
+    <main
+      class="w-full max-w-[min(100%,theme(spacing.container-max-width))] mx-auto px-3 pt-24 sm:px-5 sm:pt-28 md:pl-[4.75rem] lg:px-6 lg:pl-24 xl:pl-28 lg:pt-48"
+    >
+      <!-- About Me Section -->
+      <section class="pb-32 border-b border-surface-container-high" id="about">
+        <div
+          class="grid grid-cols-12 gap-y-8 md:gap-y-10 gap-x-8 md:gap-x-14 lg:gap-x-20 xl:gap-x-28 2xl:gap-x-32"
+        >
+          <div class="col-span-12 md:col-span-6">
+            <div
+              class="flex flex-col gap-8 md:sticky md:top-16 md:self-start md:min-h-[calc(100dvh-6rem)] w-full pb-8"
+            >
+              <div class="shrink-0 space-y-5">
+                <h2 class="font-headline-lg font-bold text-[clamp(2.85rem,2vw+2rem,4.75rem)] leading-[1.03] tracking-[0.06em] uppercase hyphens-auto">
+                  Louie Badillo
+                </h2>
+                <p class="font-label-sm text-secondary tracking-[0.22em]">
+                  Software Developer — Web Applications
+                </p>
+              </div>
+              <div
+                id="motivation"
+                class="mt-auto w-full shrink-0 md:sticky md:bottom-8 md:z-10 md:bg-background md:pt-4 md:-mx-1 md:px-1"
+              >
+                <h2 class="font-headline-md text-headline-md mb-6 leading-tight border-b border-surface-container-high pb-4">
+                  Motivation
+                </h2>
+                <p class="font-body-lg text-on-surface-variant leading-relaxed">
+                  I care about helping people achieve their goals. Whether that is through building a better
+                  website or application for their business, or improving their online presence through SEO's, google analytics or social media management. My motivation is simple: help business owners
+                  spend less time on the nitty gritty so they can focus on running their business.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-12 md:col-span-6 min-w-0">
+            <div class="flex flex-col gap-12 lg:gap-16 w-full max-w-none items-stretch">
+              <div class="mt-20 sm:mt-28 md:mt-36 lg:mt-48 w-full">
+                <h1 class="font-headline-md text-headline-md mb-6 leading-tight border-b border-surface-container-high pb-4 tracking-[0.04em]">
+                  About Me
+                </h1>
+                <p class="font-body-lg text-on-surface-variant leading-relaxed text-pretty max-w-[85ch]">
+                  I’m a software developer graduate with honours from Southern Alberta Institute of Technology in Calgary, Alberta. I am currently freelancing and build custom web applications and websites for businesses, helping them streamline their admin operations.
+                  My main focus are:
+                  <span class="text-primary font-medium">Web applications, </span>
+                  <span class="text-primary font-medium">Database Management, </span>
+                  <span class="text-primary font-medium">Websites and Social Media Management.</span>
+                   Outside of work, you’ll find me in the 
+                  <span class="text-primary font-medium">volleyball court, mountains,</span> or at home
+                  <span class="text-primary font-medium">reading manga, watching anime, or playing video games.</span>
+                </p>
+              </div>
+              <div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden border border-surface-container-high">
+                <img
+                  alt="Software Developer Portrait"
+                  class="h-full w-full object-contain object-center"
+                  loading="lazy"
+                  decoding="async"
+                  src="./assets/images/portfolio.jpeg"
+                />
+              </div>
+              <div class="w-full">
+                <h3 class="font-label-sm text-secondary uppercase mt-16">— Niche Focus</h3>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">Real Estate</span>
+                  <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">Construction</span>
+                  <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">Healthcare</span>
+                  <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">Education</span>
+                  <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">CRM</span>
+                  <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">Analytics</span>
+                  <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">e-commerce</span>
+                  <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">websites</span>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Expertise & Skills -->
+      <section class="py-32 border-b border-surface-container-high" id="expertise">
+        <div class="grid grid-cols-12 gap-gutter">
+          <div class="col-span-12 md:col-span-3">
+            <h2 class="font-headline-lg text-headline-lg sticky top-16 uppercase">
+              Skills
+            </h2>
+          </div>
+          <div class="col-span-12 md:col-span-9 md:pl-2 lg:pl-6">
+            <div class="w-full max-w-none">
+              <h3 class="font-label-sm text-secondary uppercase mb-3">— Primary Core</h3>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">TypeScript</span>
+                <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">React &amp; Next.js</span>
+                <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">Node.js Ecosystem</span>
+                <span class="px-4 py-2 border border-surface-container-high font-label-sm uppercase">PostgreSQL &amp; Prisma</span>
+              </div>
+            </div>
+            <div class="mt-12 pt-12 border-t border-surface-container-high w-full">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="flex flex-col gap-2">
+                  <span class="font-label-sm text-secondary text-[10px] uppercase">Infrastructure</span>
+                  <p class="font-body-md">AWS, Docker, Vercel, Supabase</p>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <span class="font-label-sm text-secondary text-[10px] uppercase">Design</span>
+                  <p class="font-body-md">Figma, Tailwind, CSS-in-JS</p>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <span class="font-label-sm text-secondary text-[10px] uppercase">Tools</span>
+                  <p class="font-body-md">Git, CI/CD, Google APIs</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Works Section -->
+      <section class="py-32 border-b border-surface-container-high relative" id="work">
+        <div class="grid grid-cols-12 gap-gutter relative">
+          <div class="col-span-12 md:col-span-5 lg:col-span-4">
+            <div class="sticky top-24 flex max-h-[calc(100dvh-5.5rem)] flex-col gap-5 min-h-0 md:top-20 md:max-h-[calc(100dvh-4.5rem)] lg:top-24 lg:max-h-[calc(100dvh-5rem)]">
+              <h2 class="featured-works-title font-headline-lg text-headline-lg shrink-0 uppercase mb-0 md:mb-1">
+                Featured<br />Works
+              </h2>
+              <!-- Project copy is driven by projectsData in the page script; keep it in sync when editing. -->
+              <div class="details-fade min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1" id="project-details">
+                <span class="font-label-sm text-secondary mb-2 block" id="project-meta">Web Application — 2025</span>
+                <h3 class="font-headline-sm text-headline-sm mb-4 uppercase tracking-tight" id="project-title">PEL Reports</h3>
+                <p class="text-on-surface-variant font-body-md mb-8 max-w-sm" id="project-desc">
+                  A web application that replaces paper bookkeeping with all in one digital solutions. Built with Next.js, Tailwind, Supabase and google apis for geofencing.
+                  Data aggregation into monthly reports with pdf exporting and direct printing so the company can track client progress over time. 
+                </p>
+                <div class="max-w-[240px]">
+                  <a
+                    class="cta-btn-solid block px-6 py-2.5 font-label-sm uppercase text-center focus:outline-none"
+                    href="https://pelreports.ca"
+                    id="project-live"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Live Site
+                  </a>
+                </div>
+                <div class="mt-12">
+                  <span class="font-label-sm text-secondary" id="project-index">01 / 04 PROJECTS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-12 md:col-span-7 lg:col-span-8">
+            <div
+              class="mx-auto mt-24 space-y-[20vh] pb-[40vh] md:mt-16 md:max-w-[min(100%,26rem)] md:space-y-[14vh] md:pb-[28vh] lg:max-w-[min(100%,30rem)] lg:mt-20"
+              id="project-images-container"
+            >
+              <!-- Project items: poster shows until slide is active; then video plays (muted, inline). -->
+              <div
+                class="project-item project-media featured-work-surface relative aspect-square overflow-hidden p-8 md:p-5"
+                data-project="0"
+              >
+                <img
+                  alt="PEL Reports"
+                  class="project-poster absolute inset-0 m-auto h-full w-full max-h-full max-w-full object-contain grayscale"
+                  loading="lazy"
+                  decoding="async"
+                  src="./assets/images/projects/pelreports.png"
+                />
+                <video
+                  class="project-video absolute inset-0 m-auto h-full w-full max-h-full max-w-full object-contain pointer-events-none"
+                  muted
+                  playsinline
+                  loop
+                  preload="metadata"
+                  aria-hidden="true"
+                >
+                  <source src="./assets/videos/pelreportsportfolio2.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <div
+                class="project-item project-media featured-work-surface-alt relative aspect-square overflow-hidden p-8 md:p-5"
+                data-project="1"
+              >
+                <img
+                  alt="Primera Restoration &amp; Renovation"
+                  class="project-poster absolute inset-0 m-auto h-full w-full max-h-full max-w-full object-contain grayscale"
+                  loading="lazy"
+                  decoding="async"
+                  src="./assets/images/projects/primera.png"
+                />
+                <video
+                  class="project-video absolute inset-0 m-auto h-full w-full max-h-full max-w-full object-contain pointer-events-none"
+                  muted
+                  playsinline
+                  loop
+                  preload="metadata"
+                  aria-hidden="true"
+                >
+                  <source src="./assets/videos/primeraportfolio.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <div
+                class="project-item project-media featured-work-surface relative aspect-square overflow-hidden p-8 md:p-5"
+                data-project="2"
+              >
+                <img
+                  alt="BHSS"
+                  class="project-poster absolute inset-0 m-auto h-full w-full max-h-full max-w-full object-contain grayscale"
+                  loading="lazy"
+                  decoding="async"
+                  src="./assets/images/projects/bhss.png"
+                />
+                <video
+                  class="project-video absolute inset-0 m-auto h-full w-full max-h-full max-w-full object-contain pointer-events-none"
+                  muted
+                  playsinline
+                  loop
+                  preload="metadata"
+                  aria-hidden="true"
+                >
+                  <source src="./assets/videos/bhssportfolio.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <div
+                class="project-item project-media featured-work-surface-alt relative aspect-square overflow-hidden p-8 md:p-5"
+                data-project="3"
+              >
+                <img
+                  alt="Pluming Eagle Lodge"
+                  class="project-poster absolute inset-0 m-auto h-full w-full max-h-full max-w-full object-contain grayscale"
+                  loading="lazy"
+                  decoding="async"
+                  src="./assets/images/projects/plumingeagle.png"
+                />
+                <video
+                  class="project-video absolute inset-0 m-auto h-full w-full max-h-full max-w-full object-contain pointer-events-none"
+                  muted
+                  playsinline
+                  loop
+                  preload="metadata"
+                  aria-hidden="true"
+                >
+                  <source src="./assets/videos/plumingeagleportfolio.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section class="py-32 border-b border-surface-container-high" id="contact">
+        <div class="grid grid-cols-12 gap-gutter">
+          <div class="col-span-12 md:col-span-4">
+            <h2 class="font-headline-lg text-headline-lg sticky top-16 uppercase">Contact</h2>
+          </div>
+          <div class="col-span-12 md:col-span-8">
+            <div class="max-w-2xl">
+              <p class="font-body-md text-on-surface-variant mb-6">
+                For business inquiries, please contact me at:
+              </p>
+              <div class="flex flex-col gap-3 font-body-md text-on-surface mb-12">
+                <a class="contact-link-hover text-primary underline underline-offset-4 focus:outline-none" href="mailto:louie.badillo@yahoo.com">
+                  louie.badillo@yahoo.com
+                </a>
+                <a class="contact-link-hover text-primary underline underline-offset-4 focus:outline-none" href="tel:+14038355952">
+                  +1 403-835-5952
+                </a>
+              </div>
+              <a
+                class="cta-btn-outline inline-block px-12 py-4 font-label-md tracking-tighter uppercase font-semibold focus:outline-none"
+                href="./assets/resume-louiebadillo.pdf"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                DOWNLOAD RESUME
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-background">
+      <div class="w-full px-3 sm:px-5 lg:px-6 py-16 max-w-[min(100%,theme(spacing.container-max-width))] mx-auto">
+        <p class="font-body-md text-on-surface-variant">© Louie Badillo</p>
+      </div>
+    </footer>
+
+    <script>
+      const PROJECT_COUNT = 4;
+      const projectsData = [
+        {
+          meta: "Web Application — 2025",
+          title: "PEL Reports",
+          desc: "A web application that replaces paper bookkeeping with all in one digital solutions. Built with Next.js, Tailwind, Supabase and google apis for geofencing. Data aggregation into monthly reports with pdf exporting and direct printing so the company can track client progress over time.",
+          liveUrl: "https://pelreports.ca",
+        },
+        {
+          meta: "Website — 2026",
+          title: "Primera Restoration",
+          desc: "Marketing site for Primera Restoration & Renovation Ltd.—a photography-forward, clear services, and structured paths to gallery and contact for a professional home renovation and restoration brand.",
+          liveUrl: "https://primerayyc.ca/renovation",
+        },
+        {
+          meta: "Website — 2026",
+          title: "BHSS",
+          desc: "A website focused on structured, clean and modern design for a local business.",
+          liveUrl: "https://bhss.com",
+        },
+        {
+          meta: "Website — 2024",
+          title: "Pluming Eagle Lodge",
+          desc: "A simple website for a local group homes facility.",
+          liveUrl: "https://plumingeaglelodge.com",
+        },
+      ];
+
+      let currentProjectIndex = -1;
+      let currentMediaIndex = -1;
+      const detailsContainer = document.getElementById("project-details");
+      const projectItems = document.querySelectorAll(".project-item");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const setActiveProjectMedia = (index) => {
+        if (index === currentMediaIndex) return;
+        currentMediaIndex = index;
+
+        for (const item of projectItems) {
+          const idx = Number.parseInt(item.getAttribute("data-project"), 10);
+          const video = item.querySelector("video");
+          const isActive = !Number.isNaN(idx) && index >= 0 && idx === index;
+
+          item.classList.toggle("is-active", isActive);
+
+          if (!video) continue;
+
+          if (!isActive || prefersReducedMotion) {
+            video.pause();
+            try {
+              video.currentTime = 0;
+            } catch {
+              /* ignore */
+            }
+            continue;
+          }
+
+          video.play().catch(() => {});
+        }
+      };
+
+      const setAnchorLink = (anchorEl, url) => {
+        if (!anchorEl) return;
+        const trimmed = (url ?? "").trim();
+        if (!trimmed) {
+          anchorEl.setAttribute("aria-disabled", "true");
+          anchorEl.removeAttribute("href");
+          anchorEl.removeAttribute("target");
+          anchorEl.removeAttribute("rel");
+          anchorEl.classList.add("opacity-40", "pointer-events-none");
+          return;
+        }
+        anchorEl.href = trimmed;
+        anchorEl.target = "_blank";
+        anchorEl.rel = "noreferrer";
+        anchorEl.removeAttribute("aria-disabled");
+        anchorEl.classList.remove("opacity-40", "pointer-events-none");
+      };
+
+      const updateProjectDetails = (index) => {
+        if (index === currentProjectIndex) return;
+        if (index < 0 || index >= projectsData.length) return;
+
+        currentProjectIndex = index;
+        const project = projectsData[index];
+
+        // Trigger fade out
+        detailsContainer.classList.add("out");
+
+        setTimeout(() => {
+          document.getElementById("project-meta").textContent = project.meta;
+          document.getElementById("project-title").textContent = project.title;
+          document.getElementById("project-desc").textContent = project.desc;
+
+          setAnchorLink(document.getElementById("project-live"), project.liveUrl);
+
+          document.getElementById("project-index").textContent = `${(index + 1).toString().padStart(2, "0")} / ${String(
+            PROJECT_COUNT
+          ).padStart(2, "0")} PROJECTS`;
+
+          // Trigger fade in
+          detailsContainer.classList.remove("out");
+        }, 400);
+      };
+
+      const observerOptions = {
+        root: null,
+        // Let multiple cards be "intersecting" at once; we'll pick the best match below.
+        // (A fixed 50% threshold + sequential forEach updates is what caused "stuck on project 0".)
+        rootMargin: "0px",
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      };
+
+      /** @type {Map<Element, { intersecting: boolean; ratio: number; rect: DOMRectReadOnly }>} */
+      const latestByElement = new Map();
+
+      let rafId = 0;
+      const scheduleRecomputeActiveProject = () => {
+        if (rafId) cancelAnimationFrame(rafId);
+
+        rafId = requestAnimationFrame(() => {
+          rafId = 0;
+
+          const viewportMidY = window.innerHeight / 2;
+          let bestIndex = -1;
+          let bestScore = -1;
+          let bestDistance = Number.POSITIVE_INFINITY;
+
+          for (const item of projectItems) {
+            const latest = latestByElement.get(item);
+            if (!latest || !latest.intersecting || latest.ratio <= 0) continue;
+
+            const index = Number.parseInt(item.getAttribute("data-project"), 10);
+            if (Number.isNaN(index)) continue;
+
+            const rect = latest.rect;
+            const cardMidY = rect.top + rect.height / 2;
+            const distance = Math.abs(cardMidY - viewportMidY);
+
+            const score = latest.ratio;
+            if (score > bestScore + 1e-6 || (Math.abs(score - bestScore) <= 1e-6 && distance < bestDistance)) {
+              bestScore = score;
+              bestDistance = distance;
+              bestIndex = index;
+            }
+          }
+
+          if (bestIndex === -1) {
+            setActiveProjectMedia(-1);
+            return;
+          }
+          setActiveProjectMedia(bestIndex);
+          updateProjectDetails(bestIndex);
+        });
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          latestByElement.set(entry.target, {
+            intersecting: entry.isIntersecting,
+            ratio: entry.intersectionRatio,
+            rect: entry.boundingClientRect,
+          });
+        }
+        scheduleRecomputeActiveProject();
+      }, observerOptions);
+
+      projectItems.forEach((item) => observer.observe(item));
+
+      // Initialize with first project
+      setActiveProjectMedia(0);
+      updateProjectDetails(0);
+    </script>
+  </body>
+</html>

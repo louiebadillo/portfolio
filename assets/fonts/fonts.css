@@ -1,0 +1,64 @@
+/*
+  Self-hosted fonts
+
+  If your vendor provided an `@font-face` kit with `.woff2/.woff`, prefer copying those files into this folder and
+  listing them first in `src:` (fastest + smallest). Keeping `.ttf` as a final fallback is fine.
+
+  Easiest integration paths:
+  - **Recommended**: copy the kit’s `stylesheet.css` into this repo and `@import` it from this file.
+  - **Fastest (what’s enabled below)**: declare `@font-face` pointing at the `.ttf` you already added.
+
+  Licensing: keep the vendor license/readme alongside these binaries if redistribution requires it.
+*/
+
+@font-face {
+  font-family: "Druk Wide";
+  src: url("./DrukWideBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+  NaNRage Beau (variable trial)
+  Using the VF file means Tailwind’s different `font-weight` utilities (e.g. `font-medium`) can map to real weight
+  changes without multiple static files.
+*/
+@font-face {
+  font-family: "NaNRage Beau Standard";
+  src:
+    url("./NaNRageBeau-VF-TRIAL.ttf") format("truetype-variations"),
+    url("./NaNRageBeau-VF-TRIAL.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+  Neue Haas Grotesk Display — 55 Roman (trial)
+  Single static file; mapping 300/400/500 keeps paragraph utilities (e.g. `font-medium`) from falling through to
+  unrelated fallbacks.
+*/
+@font-face {
+  font-family: "Neue Haas Grotesk Display";
+  src: url("./neuehaasgrotdisp-55roman-trial.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Haas Grotesk Display";
+  src: url("./neuehaasgrotdisp-55roman-trial.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Haas Grotesk Display";
+  src: url("./neuehaasgrotdisp-55roman-trial.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
