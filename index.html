@@ -184,10 +184,11 @@
       .project-media .project-video {
         opacity: 0;
       }
-      .project-media.is-active .project-poster {
+      /* Only swap to video once frames are actually playing (keeps poster if file is missing). */
+      .project-media.is-video-playing .project-poster {
         opacity: 0;
       }
-      .project-media.is-active .project-video {
+      .project-media.is-video-playing .project-video {
         opacity: 1;
       }
       @media (prefers-reduced-motion: reduce) {
@@ -195,10 +196,10 @@
         .project-media .project-video {
           transition: none;
         }
-        .project-media.is-active .project-poster {
+        .project-media.is-video-playing .project-poster {
           opacity: 1;
         }
-        .project-media.is-active .project-video {
+        .project-media.is-video-playing .project-video {
           opacity: 0;
         }
       }
@@ -218,6 +219,13 @@
           font-size: clamp(1.65rem, 0.65vw + 1.2rem, 2.15rem) !important;
           line-height: 1.08;
           letter-spacing: -0.03em;
+        }
+      }
+
+      /* Featured Works (mobile): stacked media + details per project */
+      @media (max-width: 767px) {
+        #work .project-entry + .project-entry {
+          margin-top: 3.5rem;
         }
       }
     </style>
@@ -549,7 +557,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div class="flex flex-col gap-2">
                   <span class="font-label-sm text-secondary text-[10px] uppercase">Infrastructure</span>
-                  <p class="font-body-md">AWS, Docker, Vercel, Supabase</p>
+                  <p class="font-body-md">AWS, Docker, Vercel, Supabase, Kafka</p>
                 </div>
                 <div class="flex flex-col gap-2">
                   <span class="font-label-sm text-secondary text-[10px] uppercase">Design</span>
@@ -569,12 +577,12 @@
       <section class="py-32 border-b border-surface-container-high relative" id="work">
         <div class="grid grid-cols-12 gap-gutter relative">
           <div class="col-span-12 md:col-span-5 lg:col-span-4">
-            <div class="sticky top-24 flex max-h-[calc(100dvh-5.5rem)] flex-col gap-5 min-h-0 md:top-20 md:max-h-[calc(100dvh-4.5rem)] lg:top-24 lg:max-h-[calc(100dvh-5rem)]">
+            <div class="md:sticky md:top-20 flex flex-col gap-5 min-h-0 md:max-h-[calc(100dvh-4.5rem)] lg:top-24 lg:max-h-[calc(100dvh-5rem)]">
               <h2 class="featured-works-title font-headline-lg text-headline-lg shrink-0 uppercase mb-0 md:mb-1">
                 Featured<br />Works
               </h2>
-              <!-- Project copy is driven by projectsData in the page script; keep it in sync when editing. -->
-              <div class="details-fade min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1" id="project-details">
+              <!-- Desktop only: project copy is driven by projectsData in the page script. -->
+              <div class="details-fade hidden md:block min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1" id="project-details">
                 <span class="font-label-sm text-secondary mb-2 block" id="project-meta">Web Application — 2025</span>
                 <h3 class="font-headline-sm text-headline-sm mb-4 uppercase tracking-tight" id="project-title">PEL Reports</h3>
                 <p class="text-on-surface-variant font-body-md mb-8 max-w-sm" id="project-desc">
@@ -600,12 +608,12 @@
           </div>
           <div class="col-span-12 md:col-span-7 lg:col-span-8">
             <div
-              class="mx-auto mt-24 space-y-[20vh] pb-[40vh] md:mt-16 md:max-w-[min(100%,26rem)] md:space-y-[14vh] md:pb-[28vh] lg:max-w-[min(100%,30rem)] lg:mt-20"
+              class="mt-12 md:mx-auto md:mt-16 md:max-w-[min(100%,36rem)] md:space-y-[14vh] md:pb-[55vh] lg:max-w-[min(100%,44rem)] lg:mt-20"
               id="project-images-container"
             >
               <!-- Project items: poster shows until slide is active; then video plays (muted, inline). -->
               <div
-                class="project-item project-media featured-work-surface relative aspect-square overflow-hidden p-8 md:p-5"
+                class="project-item project-media featured-work-surface relative aspect-square w-full overflow-hidden p-3 sm:p-4 md:p-4"
                 data-project="0"
               >
                 <img
@@ -627,7 +635,7 @@
                 </video>
               </div>
               <div
-                class="project-item project-media featured-work-surface-alt relative aspect-square overflow-hidden p-8 md:p-5"
+                class="project-item project-media featured-work-surface-alt relative aspect-square w-full overflow-hidden p-3 sm:p-4 md:p-4"
                 data-project="1"
               >
                 <img
@@ -649,7 +657,7 @@
                 </video>
               </div>
               <div
-                class="project-item project-media featured-work-surface relative aspect-square overflow-hidden p-8 md:p-5"
+                class="project-item project-media featured-work-surface relative aspect-square w-full overflow-hidden p-3 sm:p-4 md:p-4"
                 data-project="2"
               >
                 <img
@@ -671,7 +679,7 @@
                 </video>
               </div>
               <div
-                class="project-item project-media featured-work-surface-alt relative aspect-square overflow-hidden p-8 md:p-5"
+                class="project-item project-media featured-work-surface-alt relative aspect-square w-full overflow-hidden p-3 sm:p-4 md:p-4"
                 data-project="3"
               >
                 <img
@@ -755,7 +763,7 @@
           meta: "Website — 2026",
           title: "BHSS",
           desc: "A website focused on structured, clean and modern design for a local business.",
-          liveUrl: "https://bhss.com",
+          liveUrl: "https://bright-hope-website-bay.vercel.app/",
         },
         {
           meta: "Website — 2024",
@@ -768,8 +776,77 @@
       let currentProjectIndex = -1;
       let currentMediaIndex = -1;
       const detailsContainer = document.getElementById("project-details");
-      const projectItems = document.querySelectorAll(".project-item");
+      const projectImagesContainer = document.getElementById("project-images-container");
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const desktopMediaQuery = window.matchMedia("(min-width: 768px)");
+
+      const createProjectDetailsMarkup = (project, index) => {
+        const liveUrl = (project.liveUrl ?? "").trim();
+        const liveLink = liveUrl
+          ? `<a class="cta-btn-solid block px-6 py-2.5 font-label-sm uppercase text-center focus:outline-none" href="${liveUrl}" rel="noreferrer" target="_blank">Live Site</a>`
+          : `<span class="cta-btn-solid block px-6 py-2.5 font-label-sm uppercase text-center opacity-40 pointer-events-none" aria-disabled="true">Live Site</span>`;
+
+        return `
+          <span class="font-label-sm text-secondary mb-2 block">${project.meta}</span>
+          <h3 class="font-headline-sm text-headline-sm mb-4 uppercase tracking-tight">${project.title}</h3>
+          <p class="text-on-surface-variant font-body-md mb-6">${project.desc}</p>
+          <div class="max-w-[240px]">${liveLink}</div>
+          <div class="mt-8">
+            <span class="font-label-sm text-secondary">${(index + 1).toString().padStart(2, "0")} / ${String(PROJECT_COUNT).padStart(2, "0")} PROJECTS</span>
+          </div>
+        `;
+      };
+
+      const projectItems = [];
+      for (const item of projectImagesContainer.querySelectorAll(".project-item")) {
+        const index = Number.parseInt(item.getAttribute("data-project"), 10);
+        const project = projectsData[index];
+        if (!project) continue;
+
+        const entry = document.createElement("article");
+        entry.className = "project-entry";
+        item.parentNode.insertBefore(entry, item);
+        entry.appendChild(item);
+
+        const mobileDetails = document.createElement("div");
+        mobileDetails.className = "project-details-mobile md:hidden mt-3";
+        mobileDetails.innerHTML = createProjectDetailsMarkup(project, index);
+        entry.appendChild(mobileDetails);
+
+        projectItems.push(item);
+      }
+
+      const stopProjectVideo = (item, video) => {
+        item.classList.remove("is-active", "is-video-playing");
+        video.pause();
+        try {
+          video.currentTime = 0;
+        } catch {
+          /* ignore */
+        }
+      };
+
+      const startProjectVideo = (item, video) => {
+        item.classList.add("is-active");
+        item.classList.remove("is-video-playing");
+
+        const markPlaying = () => {
+          item.classList.add("is-video-playing");
+        };
+
+        video.addEventListener("playing", markPlaying, { once: true });
+        video.addEventListener(
+          "error",
+          () => {
+            item.classList.remove("is-video-playing");
+          },
+          { once: true }
+        );
+
+        video.play().then(markPlaying).catch(() => {
+          item.classList.remove("is-video-playing");
+        });
+      };
 
       const setActiveProjectMedia = (index) => {
         if (index === currentMediaIndex) return;
@@ -780,21 +857,17 @@
           const video = item.querySelector("video");
           const isActive = !Number.isNaN(idx) && index >= 0 && idx === index;
 
-          item.classList.toggle("is-active", isActive);
-
-          if (!video) continue;
-
-          if (!isActive || prefersReducedMotion) {
-            video.pause();
-            try {
-              video.currentTime = 0;
-            } catch {
-              /* ignore */
-            }
+          if (!video) {
+            item.classList.toggle("is-active", isActive);
             continue;
           }
 
-          video.play().catch(() => {});
+          if (!isActive || prefersReducedMotion) {
+            stopProjectVideo(item, video);
+            continue;
+          }
+
+          startProjectVideo(item, video);
         }
       };
 
@@ -817,6 +890,7 @@
       };
 
       const updateProjectDetails = (index) => {
+        if (!desktopMediaQuery.matches) return;
         if (index === currentProjectIndex) return;
         if (index < 0 || index >= projectsData.length) return;
 
@@ -853,6 +927,43 @@
       /** @type {Map<Element, { intersecting: boolean; ratio: number; rect: DOMRectReadOnly }>} */
       const latestByElement = new Map();
 
+      const getVisibleProjectOverlap = (rect, viewportHeight) => {
+        const visibleTop = Math.max(rect.top, 0);
+        const visibleBottom = Math.min(rect.bottom, viewportHeight);
+        const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+        return rect.height > 0 ? visibleHeight / rect.height : 0;
+      };
+
+      const pickActiveProjectIndex = () => {
+        const viewportHeight = window.innerHeight;
+        const viewportMidY = viewportHeight / 2;
+        let bestIndex = -1;
+        let bestScore = -1;
+        let bestDistance = Number.POSITIVE_INFINITY;
+
+        for (const item of projectItems) {
+          const latest = latestByElement.get(item);
+          const rect = latest?.rect ?? item.getBoundingClientRect();
+          const overlap = getVisibleProjectOverlap(rect, viewportHeight);
+          if (overlap <= 0) continue;
+
+          const index = Number.parseInt(item.getAttribute("data-project"), 10);
+          if (Number.isNaN(index)) continue;
+
+          const cardMidY = rect.top + rect.height / 2;
+          const distance = Math.abs(cardMidY - viewportMidY);
+          const score = latest?.intersecting ? latest.ratio : overlap;
+
+          if (score > bestScore + 1e-6 || (Math.abs(score - bestScore) <= 1e-6 && distance < bestDistance)) {
+            bestScore = score;
+            bestDistance = distance;
+            bestIndex = index;
+          }
+        }
+
+        return bestIndex;
+      };
+
       let rafId = 0;
       const scheduleRecomputeActiveProject = () => {
         if (rafId) cancelAnimationFrame(rafId);
@@ -860,30 +971,7 @@
         rafId = requestAnimationFrame(() => {
           rafId = 0;
 
-          const viewportMidY = window.innerHeight / 2;
-          let bestIndex = -1;
-          let bestScore = -1;
-          let bestDistance = Number.POSITIVE_INFINITY;
-
-          for (const item of projectItems) {
-            const latest = latestByElement.get(item);
-            if (!latest || !latest.intersecting || latest.ratio <= 0) continue;
-
-            const index = Number.parseInt(item.getAttribute("data-project"), 10);
-            if (Number.isNaN(index)) continue;
-
-            const rect = latest.rect;
-            const cardMidY = rect.top + rect.height / 2;
-            const distance = Math.abs(cardMidY - viewportMidY);
-
-            const score = latest.ratio;
-            if (score > bestScore + 1e-6 || (Math.abs(score - bestScore) <= 1e-6 && distance < bestDistance)) {
-              bestScore = score;
-              bestDistance = distance;
-              bestIndex = index;
-            }
-          }
-
+          const bestIndex = pickActiveProjectIndex();
           if (bestIndex === -1) {
             setActiveProjectMedia(-1);
             return;
@@ -904,7 +992,22 @@
         scheduleRecomputeActiveProject();
       }, observerOptions);
 
-      projectItems.forEach((item) => observer.observe(item));
+      for (const item of projectItems) observer.observe(item);
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          scheduleRecomputeActiveProject();
+        },
+        { passive: true }
+      );
+
+      desktopMediaQuery.addEventListener("change", () => {
+        currentProjectIndex = -1;
+        if (desktopMediaQuery.matches) {
+          updateProjectDetails(currentMediaIndex >= 0 ? currentMediaIndex : 0);
+        }
+      });
 
       // Initialize with first project
       setActiveProjectMedia(0);
